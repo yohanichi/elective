@@ -33,7 +33,7 @@
             <select id="account_type" name="account_type" required>
                 <option value="">Select Role</option>
                 <option value="admin" {{ old('account_type') == 'admin' ? 'selected' : '' }}>Admin</option>
-                <option value="admin-staff" {{ old('account_type') == 'admin-staff' ? 'selected' : '' }}>Admin Staff</option>
+                <option value="staff" {{ old('account_type') == 'staff' ? 'selected' : '' }}>Admin Staff</option>
                 <option value="teacher" {{ old('account_type') == 'teacher' ? 'selected' : '' }}>Teacher</option>
                 <option value="student" {{ old('account_type') == 'student' ? 'selected' : '' }}>Student</option>
             </select>

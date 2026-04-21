@@ -26,16 +26,10 @@ class Subject extends Model
     public static function rules($id = null)
     {
         $rules = [
-            'code' => 'required|string|max:20|unique:subject,code',
-            'title' => 'required|string|max:100|unique:subject,title',
+            'code' => 'required|string|max:20|unique:subject,code' . ($id ? ",{$id},subject_id" : ''),
+            'title' => 'required|string|max:100|unique:subject,title' . ($id ? ",{$id},subject_id" : ''),
             'unit' => 'required|integer|min:1',
         ];
-
-        if ($id) {
-            $rules['code'] .= ',' . $id . ',subject_id';
-            $rules['title'] .= ',' . $id . ',subject_id';
-        }
-
         return $rules;
     }
 }

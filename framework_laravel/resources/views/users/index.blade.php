@@ -17,7 +17,10 @@
                 <th>ID</th>
                 <th>Username</th>
                 <th>Role</th>
-                <th>Created</th>
+                <th>Created On</th>
+                <th>Created By</th>
+                <th>Updated On</th>
+                <th>Updated By</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -27,21 +30,24 @@
                 <td>{{ $user->id }}</td>
                 <td>{{ $user->username }}</td>
                 <td>{{ $user->account_type }}</td>
-                <td>{{ $user->created_on ? $user->created_on->format('Y-m-d') : 'N/A' }}</td>
-                <td class="actions">
-                    <a href="{{ route('users.edit', $user) }}" class="btn btn-secondary btn-sm">Edit</a>
+                <td>{{ $user->created_on ? $user->created_on->format('M d, Y') : 'N/A' }}</td>
+                <td>{{ $user->createdBy ? $user->createdBy->username : 'N/A' }}</td>
+                <td>{{ $user->updated_on ? $user->updated_on->format('M d, Y') : 'N/A' }}</td>
+                <td>{{ $user->updatedBy ? $user->updatedBy->username : 'N/A' }}</td>
+                <td class="actions" style="display: flex; gap: 0.5rem; align-items: center;">
+                    <a href="{{ route('users.edit', $user) }}" class="btn btn-secondary btn-sm" style="white-space: nowrap;">Edit</a>
                     @if($user->id !== Auth::id())
                     <form method="POST" action="{{ route('users.destroy', $user) }}" style="display: inline;">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</button>
+                        <button type="submit" class="btn btn-danger btn-sm" style="white-space: nowrap;" onclick="return confirm('Are you sure?')">Delete</button>
                     </form>
                     @endif
                 </td>
             </tr>
             @empty
             <tr>
-                <td colspan="5" class="text-center">No users found.</td>
+                <td colspan="8" class="text-center">No users found.</td>
             </tr>
             @endforelse
         </tbody>

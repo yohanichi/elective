@@ -22,6 +22,10 @@ class ProgramController extends Controller
      */
     public function create()
     {
+        $user = Auth::user();
+        if (!$user->canManageSubjectsPrograms()) {
+            abort(403, 'Unauthorized');
+        }
         return view('programs.create');
     }
 
@@ -30,6 +34,10 @@ class ProgramController extends Controller
      */
     public function store(Request $request)
     {
+        $user = Auth::user();
+        if (!$user->canManageSubjectsPrograms()) {
+            abort(403, 'Unauthorized');
+        }
         $request->validate(Program::rules());
 
         Program::create($request->only(['code', 'title', 'years']));
@@ -52,6 +60,10 @@ class ProgramController extends Controller
      */
     public function edit($id)
     {
+        $user = Auth::user();
+        if (!$user->canManageSubjectsPrograms()) {
+            abort(403, 'Unauthorized');
+        }
         $program = Program::findOrFail($id);
         return view('programs.edit', compact('program'));
     }
@@ -61,6 +73,10 @@ class ProgramController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $user = Auth::user();
+        if (!$user->canManageSubjectsPrograms()) {
+            abort(403, 'Unauthorized');
+        }
         $program = Program::findOrFail($id);
         $request->validate(Program::rules($id));
 
@@ -75,6 +91,10 @@ class ProgramController extends Controller
      */
     public function destroy($id)
     {
+        $user = Auth::user();
+        if (!$user->canManageSubjectsPrograms()) {
+            abort(403, 'Unauthorized');
+        }
         $program = Program::findOrFail($id);
         $program->delete();
 

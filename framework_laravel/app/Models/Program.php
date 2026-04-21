@@ -51,16 +51,10 @@ class Program extends Model
     public static function rules($id = null)
     {
         $rules = [
-            'code' => 'required|string|max:20|unique:program,code',
-            'title' => 'required|string|max:100|unique:program,title',
+            'code' => 'required|string|max:20|unique:program,code' . ($id ? ",{$id},program_id" : ''),
+            'title' => 'required|string|max:100|unique:program,title' . ($id ? ",{$id},program_id" : ''),
             'years' => 'required|integer|min:1',
         ];
-
-        if ($id) {
-            $rules['code'] .= ',' . $id . ',program_id';
-            $rules['title'] .= ',' . $id . ',program_id';
-        }
-
         return $rules;
     }
 

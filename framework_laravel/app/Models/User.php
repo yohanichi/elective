@@ -27,6 +27,12 @@ class User extends Authenticatable
         'updated_by',
     ];
 
+    public function isAdminStaff(): bool
+    {
+        return $this->account_type === 'staff';
+    }
+
+
     /**
      * Indicates if the model should be timestamped.
      *
@@ -74,6 +80,22 @@ class User extends Authenticatable
      */
     public function canManageSubjectsPrograms(): bool
     {
-        return in_array($this->account_type, ['admin', 'admin-staff'], true);
+        return in_array($this->account_type, ['admin', 'staff'], true);
+    }
+
+    /**
+     * Relationship to the user who created this user.
+     */
+    public function createdBy()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    /**
+     * Relationship to the user who last updated this user.
+     */
+    public function updatedBy()
+    {
+        return $this->belongsTo(User::class, 'updated_by');
     }
 }

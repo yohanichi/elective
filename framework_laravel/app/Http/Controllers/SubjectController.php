@@ -22,6 +22,10 @@ class SubjectController extends Controller
      */
     public function create()
     {
+        $user = Auth::user();
+        if (!$user->canManageSubjectsPrograms()) {
+            abort(403, 'Unauthorized');
+        }
         return view('subjects.create');
     }
 
@@ -30,6 +34,10 @@ class SubjectController extends Controller
      */
     public function store(Request $request)
     {
+        $user = Auth::user();
+        if (!$user->canManageSubjectsPrograms()) {
+            abort(403, 'Unauthorized');
+        }
         $request->validate(Subject::rules());
 
         Subject::create($request->only(['code', 'title', 'unit']));
@@ -52,6 +60,10 @@ class SubjectController extends Controller
      */
     public function edit($id)
     {
+        $user = Auth::user();
+        if (!$user->canManageSubjectsPrograms()) {
+            abort(403, 'Unauthorized');
+        }
         $subject = Subject::findOrFail($id);
         return view('subjects.edit', compact('subject'));
     }
@@ -61,6 +73,10 @@ class SubjectController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $user = Auth::user();
+        if (!$user->canManageSubjectsPrograms()) {
+            abort(403, 'Unauthorized');
+        }
         $subject = Subject::findOrFail($id);
         $request->validate(Subject::rules($id));
 
@@ -75,6 +91,10 @@ class SubjectController extends Controller
      */
     public function destroy($id)
     {
+        $user = Auth::user();
+        if (!$user->canManageSubjectsPrograms()) {
+            abort(403, 'Unauthorized');
+        }
         $subject = Subject::findOrFail($id);
         $subject->delete();
 

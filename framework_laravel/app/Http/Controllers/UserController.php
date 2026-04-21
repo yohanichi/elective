@@ -14,7 +14,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::orderBy('username')->get();
+        $users = User::with(['createdBy', 'updatedBy'])->orderBy('username')->get();
         return view('users.index', compact('users'));
     }
 
@@ -31,10 +31,11 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+
         $request->validate([
             'username' => 'required|string|regex:/^[a-zA-Z0-9_]{3,20}$/|unique:users,username',
             'password' => 'required|string|min:6|confirmed',
-            'account_type' => 'required|in:admin,admin-staff,teacher,student',
+            'account_type' => 'required|in:admin,staff,teacher,student',
         ]);
 
         User::create([
