@@ -32,12 +32,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/password/change', [PasswordController::class, 'edit'])->name('password.edit');
     Route::put('/password/change', [PasswordController::class, 'update'])->name('password.update');
 
-    // Subject program browsing for all authenticated users
-    Route::get('/subjects', [SubjectController::class, 'index'])->name('subjects.index');
-    Route::get('/subjects/{subject}', [SubjectController::class, 'show'])->name('subjects.show');
-    Route::get('/programs', [ProgramController::class, 'index'])->name('programs.index');
-    Route::get('/programs/{program}', [ProgramController::class, 'show'])->name('programs.show');
-
     // Subject management (admin and admin-staff)
     Route::middleware('admin.staff')->group(function () {
         Route::get('/subjects/create', [SubjectController::class, 'create'])->name('subjects.create');
@@ -52,6 +46,12 @@ Route::middleware('auth')->group(function () {
         Route::put('/programs/{program}', [ProgramController::class, 'update'])->name('programs.update');
         Route::delete('/programs/{program}', [ProgramController::class, 'destroy'])->name('programs.destroy');
     });
+
+    // Subject program browsing for all authenticated users
+    Route::get('/subjects', [SubjectController::class, 'index'])->name('subjects.index');
+    Route::get('/subjects/{subject}', [SubjectController::class, 'show'])->name('subjects.show');
+    Route::get('/programs', [ProgramController::class, 'index'])->name('programs.index');
+    Route::get('/programs/{program}', [ProgramController::class, 'show'])->name('programs.show');
 
     // User management (admin only)
     Route::middleware('admin')->group(function () {
