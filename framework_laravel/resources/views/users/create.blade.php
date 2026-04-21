@@ -6,6 +6,7 @@
 <div class="card" style="max-width: 600px; margin: 0 auto;">
     <div class="card-header">
         <h2 class="card-title">Add New User</h2>
+        <p style="color: #718096; margin-top: 0.5rem; font-size: 0.95rem;">Create a new system user</p>
     </div>
 
     <form method="POST" action="{{ route('users.store') }}">
@@ -13,14 +14,14 @@
 
         <div class="form-group">
             <label for="username">Username *</label>
-            <input type="text" id="username" name="username" value="{{ old('username') }}" required>
-            <small style="color: #666;">3-20 characters, alphanumeric and underscore only</small>
+            <input type="text" id="username" name="username" value="{{ old('username') }}" placeholder="e.g., john_doe" required>
+            <small>3-20 characters, alphanumeric and underscore only</small>
         </div>
 
         <div class="form-group">
             <label for="password">Password *</label>
             <input type="password" id="password" name="password" required>
-            <small style="color: #666;">Minimum 6 characters</small>
+            <small>Minimum 6 characters</small>
         </div>
 
         <div class="form-group">
@@ -39,7 +40,7 @@
             </select>
         </div>
 
-        <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+        <div style="display: flex; gap: 1rem; margin-top: 2.5rem;">
             <button type="submit" class="btn btn-primary">Create User</button>
             <a href="{{ route('users.index') }}" class="btn btn-secondary">Cancel</a>
         </div>

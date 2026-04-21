@@ -6,7 +6,10 @@
 <div class="card">
     <div class="card-header">
         <div style="display: flex; justify-content: space-between; align-items: center;">
-            <h2 class="card-title">Subjects</h2>
+            <div>
+                <h2 class="card-title">Subjects</h2>
+                <p style="color: #718096; margin-top: 0.5rem; font-size: 0.95rem;">Manage your course subjects</p>
+            </div>
             @if(Auth::user()->canManageSubjectsPrograms())
             <a href="{{ route('subjects.create') }}" class="btn btn-primary">Add New Subject</a>
             @endif
@@ -29,7 +32,7 @@
             @forelse($subjects as $subject)
             <tr>
                 <td>{{ $subject->subject_id }}</td>
-                <td>{{ $subject->code }}</td>
+                <td><strong>{{ $subject->code }}</strong></td>
                 <td>{{ $subject->title }}</td>
                 <td>{{ $subject->unit }}</td>
                 @if(Auth::user()->canManageSubjectsPrograms())
@@ -40,14 +43,14 @@
             </tr>
             @empty
             <tr>
-                <td colspan="{{ Auth::user()->canManageSubjectsPrograms() ? '5' : '4' }}" class="text-center">No subjects found.</td>
+                <td colspan="{{ Auth::user()->canManageSubjectsPrograms() ? '5' : '4' }}" class="text-center" style="padding: 2rem; color: #a0aec0;">No subjects found.</td>
             </tr>
             @endforelse
         </tbody>
     </table>
 
-    <div style="margin-top: 2rem;">
-        <a href="{{ route('home') }}" class="btn btn-secondary">← Back to Home</a>
+    <div style="margin-top: 2.5rem;">
+        <a href="{{ route('home') }}" class="btn btn-secondary">Back to Home</a>
     </div>
 </div>
 @endsection

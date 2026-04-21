@@ -6,7 +6,10 @@
 <div class="card">
     <div class="card-header">
         <div style="display: flex; justify-content: space-between; align-items: center;">
-            <h2 class="card-title">Users</h2>
+            <div>
+                <h2 class="card-title">Users</h2>
+                <p style="color: #718096; margin-top: 0.5rem; font-size: 0.95rem;">Manage system users and permissions</p>
+            </div>
             <a href="{{ route('users.create') }}" class="btn btn-primary">Add New User</a>
         </div>
     </div>
@@ -28,8 +31,8 @@
             @forelse($users as $user)
             <tr>
                 <td>{{ $user->id }}</td>
-                <td>{{ $user->username }}</td>
-                <td>{{ $user->account_type }}</td>
+                <td><strong>{{ $user->username }}</strong></td>
+                <td><span style="display: inline-block; padding: 0.35rem 0.75rem; background: #edf2f7; border-radius: 6px; font-size: 0.85rem; font-weight: 500; color: #4a5568;">{{ ucfirst($user->account_type) }}</span></td>
                 <td>{{ $user->created_on ? $user->created_on->format('M d, Y') : 'N/A' }}</td>
                 <td>{{ $user->createdBy ? $user->createdBy->username : 'N/A' }}</td>
                 <td>{{ $user->updated_on ? $user->updated_on->format('M d, Y') : 'N/A' }}</td>
@@ -47,14 +50,14 @@
             </tr>
             @empty
             <tr>
-                <td colspan="8" class="text-center">No users found.</td>
+                <td colspan="8" class="text-center" style="padding: 2rem; color: #a0aec0;">No users found.</td>
             </tr>
             @endforelse
         </tbody>
     </table>
 
-    <div style="margin-top: 2rem;">
-        <a href="{{ route('home') }}" class="btn btn-secondary">← Back to Home</a>
+    <div style="margin-top: 2.5rem;">
+        <a href="{{ route('home') }}" class="btn btn-secondary">Back to Home</a>
     </div>
 </div>
 @endsection
