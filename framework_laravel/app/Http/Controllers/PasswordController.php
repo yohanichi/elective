@@ -35,9 +35,11 @@ class PasswordController extends Controller
             ]);
         }
 
-        // Update password
+        // Update password with updated_on and updated_by tracking
         $user->update([
             'password' => Hash::make($request->new_password),
+            'updated_on' => now(),
+            'updated_by' => $user->id,
         ]);
 
         return redirect()->route('home')
