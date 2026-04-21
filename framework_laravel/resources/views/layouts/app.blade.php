@@ -33,6 +33,42 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 2rem;
+        }
+
+        .navbar-nav {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+            flex: 1;
+            justify-content: center;
+        }
+
+        .navbar-nav a {
+            color: #4f46e5;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            padding: 0.6rem 1rem;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            display: inline-block;
+        }
+
+        .navbar-nav a:hover:not(.active) {
+            background: #f0f4f8;
+            color: #4338ca;
+        }
+
+        .navbar-nav a.active {
+            background: #4f46e5;
+            color: white;
+            cursor: default;
+            pointer-events: none;
+        }
+
+        .navbar-nav a.active:hover {
+            background: #4f46e5;
         }
 
         .navbar .logo {
@@ -302,6 +338,96 @@
             color: #718096;
             font-size: 1.1rem;
         }
+
+        .user-dropdown {
+            position: relative;
+        }
+
+        .user-menu-trigger {
+            cursor: pointer;
+            color: #4f46e5;
+            font-weight: 600;
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .user-menu-trigger:hover {
+            background: #f0f4f8;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            min-width: 200px;
+            margin-top: 0.5rem;
+            display: none;
+            z-index: 1000;
+        }
+
+        .dropdown-menu.active {
+            display: block;
+        }
+
+        .dropdown-menu a,
+        .dropdown-menu form {
+            display: block;
+        }
+
+        .dropdown-menu a {
+            padding: 0.85rem 1.25rem;
+            color: #2d3748;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .dropdown-menu a:last-child,
+        .dropdown-menu form:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-menu a:hover {
+            background: #f8fafc;
+            color: #4f46e5;
+            padding-left: 1.5rem;
+        }
+
+        .dropdown-menu form {
+            padding: 0;
+        }
+
+        .dropdown-menu button {
+            width: 100%;
+            padding: 0.85rem 1.25rem;
+            background: none;
+            border: none;
+            border-bottom: 1px solid #e2e8f0;
+            text-align: left;
+            cursor: pointer;
+            color: #2d3748;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .dropdown-menu button:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-menu button:hover {
+            background: #f8fafc;
+            color: #f56565;
+            padding-left: 1.5rem;
+        }
     </style>
     @stack('styles')
 </head>
@@ -310,16 +436,49 @@
     <nav class="navbar">
         <div class="container">
             <div class="logo">School Management System</div>
+            <div class="navbar-nav">
+                <a href="{{ route('subjects.index') }}" class="@if(Route::currentRouteName() === 'subjects.index') active @endif">Subjects</a>
+                <a href="{{ route('programs.index') }}" class="@if(Route::currentRouteName() === 'programs.index') active @endif">Programs</a>
+                @if(Auth::user()->isAdmin())
+                <a href="{{ route('users.index') }}" class="@if(Route::currentRouteName() === 'users.index') active @endif">Users</a>
+                @endif
+            </div>
             <div class="user-info">
-                <span>Welcome, {{ Auth::user()->username }} ({{ Auth::user()->account_type }})</span>
-                <form method="POST" action="{{ route('logout') }}" style="display: inline;">
-                    @csrf
-                    <button type="submit" class="logout-btn">Logout</button>
-                </form>
+                <div class="user-dropdown">
+                    <div class="user-menu-trigger" id="userMenuTrigger">
+                        <span>{{ Auth::user()->username }}</span>
+                        <span>▼</span>
+                    </div>
+                    <div class="dropdown-menu" id="dropdownMenu">
+                        <a href="{{ route('password.edit') }}">Change Password</a>
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit">Logout</button>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </nav>
     @endif
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const trigger = document.getElementById('userMenuTrigger');
+            const menu = document.getElementById('dropdownMenu');
+
+            trigger.addEventListener('click', function(e) {
+                e.stopPropagation();
+                menu.classList.toggle('active');
+            });
+
+            document.addEventListener('click', function(e) {
+                if (!trigger.contains(e.target) && !menu.contains(e.target)) {
+                    menu.classList.remove('active');
+                }
+            });
+        });
+    </script>
 
     <div class="container">
         @if(session('success'))
